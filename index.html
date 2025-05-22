@@ -1,1 +1,637 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Website Dashboard</title>
+    <style>
+        /* Global Styles */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+        }
+        
+        body {
+            background-color: #f0f8fb;
+            height: 100vh;
+            display: flex;
+            gap: 20px;
+            padding: 20px;
+        }
+        
+        /* Sidebar Styles */
+        .sidebar {
+            width: 195px;
+            background-color: #e1f3f8;
+            padding: 15px;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            height: calc(100vh - 40px);
+            border-radius: 20px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+        }
+        
+        .logo-container {
+            display: flex;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+        
+        .logo {
+            color: #5ab0c7;
+            font-size: 18px;
+            font-weight: bold;
+            display: flex;
+            align-items: center;
+        }
+        
+        .logo-icon {
+            color: #5ab0c7;
+            margin-right: 8px;
+            font-size: 22px;
+        }
+        
+        .brand-text {
+            font-weight: 600;
+        }
+        
+        .sub-text {
+            color: #5ab0c7;
+            font-size: 14px;
+            margin-left: 5px;
+        }
+        
+        .nav-menu {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+        
+        .nav-item {
+            padding: 12px;
+            border-radius: 15px;
+            color: #555;
+            font-size: 14px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+        
+        .nav-item.active {
+            background-color: #75b5c4;
+            color: white;
+            border-radius: 15px;
+        }
+        
+        .nav-item:hover:not(.active) {
+            background-color: #d0e8f0;
+            border-radius: 15px;
+        }
+        
+        .user-profile {
+            display: flex;
+            align-items: center;
+            padding: 10px;
+            border-radius: 15px;
+            background-color: #f0f8fb;
+            margin-top: auto;
+        }
+        
+        .avatar {
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            margin-right: 10px;
+            background-color: #ccc;
+            overflow: hidden;
+        }
+        
+        .avatar img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+        
+        .user-info {
+            flex-grow: 1;
+        }
+        
+        .user-name {
+            font-size: 13px;
+            font-weight: 500;
+        }
+        
+        .user-email {
+            font-size: 11px;
+            color: #777;
+        }
+        
+        .menu-dots {
+            cursor: pointer;
+            color: #777;
+        }
+        
+        /* Main Content Styles */
+        .main-content {
+            flex-grow: 1;
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+            height: calc(100vh - 40px);
+        }
+        
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background-color: white;
+            padding: 20px 25px;
+            border-radius: 20px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+        }
+        
+        .page-title {
+            font-size: 22px;
+            font-weight: 500;
+            color: #333;
+        }
+        
+        .search-container {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+        
+        .search-box {
+            position: relative;
+            display: flex;
+            align-items: center;
+        }
+        
+        .search-input {
+            padding: 10px 15px;
+            padding-right: 40px;
+            border-radius: 25px;
+            border: 1px solid #ddd;
+            width: 250px;
+            font-size: 14px;
+        }
+        
+        .search-icon {
+            position: absolute;
+            right: 15px;
+            color: #999;
+        }
+        
+        .automation-btn {
+            background-color: #f9a857;
+            color: white;
+            border: none;
+            border-radius: 25px;
+            padding: 8px 15px;
+            font-size: 12px;
+            font-weight: 500;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            transition: all 0.2s ease;
+        }
+        
+        .automation-btn:hover {
+            background-color: #f79632;
+            transform: translateY(-1px);
+        }
+        
+        .automation-icon {
+            margin-left: 5px;
+        }
 
+        /* Content Area */
+        .content-area {
+            flex-grow: 1;
+            background-color: white;
+            border-radius: 20px;
+            padding: 25px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+        }
+        
+        /* Filter Section */
+        .filter-section {
+            display: flex;
+            gap: 15px;
+            margin-bottom: 20px;
+        }
+        
+        .filter-input {
+            padding: 10px 15px;
+            border: 1px solid #ddd;
+            border-radius: 15px;
+            font-size: 14px;
+            background-color: #f8f9fa;
+            flex-grow: 1;
+            transition: all 0.2s ease;
+        }
+
+        .filter-input:focus {
+            outline: none;
+            border-color: #5ab0c7;
+            background-color: white;
+        }
+        
+        .filter-status {
+            position: relative;
+        }
+        
+        .status-indicator {
+            position: absolute;
+            right: 15px;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 10px;
+            height: 10px;
+            background-color: #f9a857;
+            border-radius: 50%;
+        }
+        
+        .filter-buttons {
+            display: flex;
+            gap: 10px;
+        }
+        
+        .apply-btn {
+            background-color: #f9a857;
+            color: white;
+            border: none;
+            border-radius: 15px;
+            padding: 10px 20px;
+            font-size: 14px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        .apply-btn:hover {
+            background-color: #f79632;
+            transform: translateY(-1px);
+        }
+        
+        .clear-btn {
+            background-color: transparent;
+            color: #333;
+            border: 1px solid #ddd;
+            border-radius: 15px;
+            padding: 10px 20px;
+            font-size: 14px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        .clear-btn:hover {
+            background-color: #f8f9fa;
+        }
+        
+        /* Table Container */
+        .table-container {
+            flex-grow: 1;
+            overflow: auto;
+            border-radius: 15px;
+        }
+
+        /* Table Styles */
+        .cases-table {
+            width: 100%;
+            border-collapse: collapse;
+            background-color: white;
+            border-radius: 15px;
+            overflow: hidden;
+        }
+        
+        .cases-table th {
+            background-color: #e1f3f8;
+            text-align: left;
+            padding: 15px;
+            font-size: 14px;
+            font-weight: 500;
+            color: #333;
+            position: sticky;
+            top: 0;
+            z-index: 1;
+        }
+        
+        .cases-table td {
+            padding: 15px;
+            border-top: 1px solid #f0f0f0;
+            font-size: 14px;
+            color: #555;
+        }
+        
+        .cases-table tbody tr {
+            background-color: #f0f8fb;
+            transition: background-color 0.2s ease;
+        }
+        
+        .cases-table tbody tr:nth-child(odd) {
+            background-color: #e1f3f8;
+        }
+
+        .cases-table tbody tr:hover {
+            background-color: #d0e8f0 !important;
+        }
+        
+        .checkbox-cell {
+            width: 30px;
+        }
+        
+        .view-details-btn {
+            background-color: #f9a857;
+            color: white;
+            border: none;
+            border-radius: 10px;
+            padding: 6px 12px;
+            font-size: 12px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        .view-details-btn:hover {
+            background-color: #f79632;
+            transform: translateY(-1px);
+        }
+        
+        /* Pagination */
+        .pagination-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-top: 20px;
+            padding-top: 20px;
+            border-top: 1px solid #f0f0f0;
+            font-size: 14px;
+            color: #555;
+        }
+        
+        .rows-per-page {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .page-selector {
+            padding: 5px 10px;
+            border: 1px solid #ddd;
+            border-radius: 10px;
+            background-color: #f8f9fa;
+            display: flex;
+            align-items: center;
+            cursor: pointer;
+        }
+        
+        .page-selector-value {
+            margin-right: 5px;
+        }
+        
+        .pagination-info {
+            display: flex;
+            align-items: center;
+        }
+        
+        .pagination-controls {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .page-number {
+            width: 30px;
+            height: 30px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 10px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+        
+        .page-number.active {
+            background-color: #5ab0c7;
+            color: white;
+        }
+
+        .page-number:hover:not(.active) {
+            background-color: #f0f8fb;
+        }
+        
+        .pagination-arrow {
+            cursor: pointer;
+            color: #5ab0c7;
+            padding: 5px;
+            border-radius: 8px;
+            transition: all 0.2s ease;
+        }
+
+        .pagination-arrow:hover:not(.disabled) {
+            background-color: #f0f8fb;
+        }
+        
+        .pagination-arrow.disabled {
+            color: #ccc;
+            cursor: not-allowed;
+        }
+    </style>
+</head>
+<body>
+    <!-- Sidebar -->
+    <div class="sidebar">
+        <div>
+            <div class="logo-container">
+                <div class="logo">
+                    <span class="logo-icon">❄️</span>
+                    <span class="brand-text">Website</span>
+                    <span class="sub-text">Name</span>
+                </div>
+            </div>
+            
+            <div class="nav-menu">
+                <div class="nav-item active">Case</div>
+                <div class="nav-item">PO</div>
+                <div class="nav-item">Location</div>
+                <div class="nav-item">Email</div>
+            </div>
+        </div>
+        
+        <div class="user-profile">
+            <div class="avatar">
+                <img src="/api/placeholder/32/32" alt="User profile">
+            </div>
+            <div class="user-info">
+                <div class="user-name">Test User</div>
+                <div class="user-email">testuser@mail.com</div>
+            </div>
+            <div class="menu-dots">⋯</div>
+        </div>
+    </div>
+    
+    <!-- Main Content -->
+    <div class="main-content">
+        <!-- Header -->
+        <div class="header">
+            <h1 class="page-title">List</h1>
+            
+            <div class="search-container">
+                <div class="search-box">
+                    <input type="text" class="search-input" placeholder="Type to search...">
+                    <span class="search-icon">🔍</span>
+                </div>
+                
+                <button class="automation-btn">
+                    Button
+                    <span class="automation-icon">⚙️</span>
+                </button>
+            </div>
+        </div>
+
+        <!-- Content Area -->
+        <div class="content-area">
+            <div class="filter-section">
+                <input type="text" class="filter-input" placeholder="Case GUID">
+                
+                <div class="filter-input filter-status">
+                    Status
+                    <span class="status-indicator"></span>
+                </div>
+                
+                <input type="text" class="filter-input" placeholder="Hospital/Facility">
+                
+                <div class="filter-buttons">
+                    <button class="apply-btn">Apply</button>
+                    <button class="clear-btn">Clear</button>
+                </div>
+            </div>
+            
+            <div class="table-container">
+                <table class="cases-table">
+                    <thead>
+                        <tr>
+                            <th class="checkbox-cell"></th>
+                            <th>Case</th>
+                            <th>Case Status</th>
+                            <th>Location</th>
+                            <th>Created Date</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <!-- Repeat these rows 10 times -->
+                        <tr>
+                            <td class="checkbox-cell"><input type="checkbox"></td>
+                            <td>12345678</td>
+                            <td>Ready for PO</td>
+                            <td>ABC Hospital</td>
+                            <td>2025-01-03 15:38:01.262747</td>
+                            <td><button class="view-details-btn">VIEW DETAILS</button></td>
+                        </tr>
+                        <tr>
+                            <td class="checkbox-cell"><input type="checkbox"></td>
+                            <td>12345679</td>
+                            <td>In Progress</td>
+                            <td>XYZ Medical Center</td>
+                            <td>2025-01-03 14:22:15.123456</td>
+                            <td><button class="view-details-btn">VIEW DETAILS</button></td>
+                        </tr>
+                        <tr>
+                            <td class="checkbox-cell"><input type="checkbox"></td>
+                            <td>12345680</td>
+                            <td>Ready for PO</td>
+                            <td>City General Hospital</td>
+                            <td>2025-01-03 13:15:30.987654</td>
+                            <td><button class="view-details-btn">VIEW DETAILS</button></td>
+                        </tr>
+                        <tr>
+                            <td class="checkbox-cell"><input type="checkbox"></td>
+                            <td>12345681</td>
+                            <td>Completed</td>
+                            <td>Regional Medical</td>
+                            <td>2025-01-03 12:45:22.456789</td>
+                            <td><button class="view-details-btn">VIEW DETAILS</button></td>
+                        </tr>
+                        <tr>
+                            <td class="checkbox-cell"><input type="checkbox"></td>
+                            <td>12345682</td>
+                            <td>Ready for PO</td>
+                            <td>Community Health</td>
+                            <td>2025-01-03 11:30:45.321098</td>
+                            <td><button class="view-details-btn">VIEW DETAILS</button></td>
+                        </tr>
+                        <tr>
+                            <td class="checkbox-cell"><input type="checkbox"></td>
+                            <td>12345683</td>
+                            <td>Under Review</td>
+                            <td>Metro Hospital</td>
+                            <td>2025-01-03 10:15:33.654321</td>
+                            <td><button class="view-details-btn">VIEW DETAILS</button></td>
+                        </tr>
+                        <tr>
+                            <td class="checkbox-cell"><input type="checkbox"></td>
+                            <td>12345684</td>
+                            <td>Ready for PO</td>
+                            <td>Valley Medical</td>
+                            <td>2025-01-03 09:22:18.789123</td>
+                            <td><button class="view-details-btn">VIEW DETAILS</button></td>
+                        </tr>
+                        <tr>
+                            <td class="checkbox-cell"><input type="checkbox"></td>
+                            <td>12345685</td>
+                            <td>In Progress</td>
+                            <td>Riverside Hospital</td>
+                            <td>2025-01-03 08:45:55.147258</td>
+                            <td><button class="view-details-btn">VIEW DETAILS</button></td>
+                        </tr>
+                        <tr>
+                            <td class="checkbox-cell"><input type="checkbox"></td>
+                            <td>12345686</td>
+                            <td>Ready for PO</td>
+                            <td>Central Medical</td>
+                            <td>2025-01-03 07:33:42.369852</td>
+                            <td><button class="view-details-btn">VIEW DETAILS</button></td>
+                        </tr>
+                        <tr>
+                            <td class="checkbox-cell"><input type="checkbox"></td>
+                            <td>12345687</td>
+                            <td>Pending Review</td>
+                            <td>Northside Clinic</td>
+                            <td>2025-01-03 06:18:27.741963</td>
+                            <td><button class="view-details-btn">VIEW DETAILS</button></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            
+            <div class="pagination-container">
+                <div class="rows-per-page">
+                    Rows per page
+                    <div class="page-selector">
+                        <span class="page-selector-value">10</span>
+                        <span>▼</span>
+                    </div>
+                </div>
+                
+                <div class="pagination-info">
+                    Showing 1-10 of 30
+                </div>
+                
+                <div class="pagination-controls">
+                    <span class="pagination-arrow disabled">◀</span>
+                    <div class="page-number active">1</div>
+                    <div class="page-number">2</div>
+                    <div class="page-number">3</div>
+                    <span class="pagination-arrow">▶</span>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
